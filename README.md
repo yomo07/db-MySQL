@@ -135,6 +135,42 @@ Este Power trae una sola conexión configurada. Si hace falta una segunda (por e
 
 **El validador de esquemas de VS Code/Kiro puede bloquear `agent-plugins.org` por defecto**, con el error "Location is untrusted". Se resuelve agregando ese dominio a `json.schemaDownload.trustedDomains` en el `settings.json` de usuario (`Ctrl+Shift+P` → "Preferences: Open User Settings (JSON)").
 
+## Opciones adicionales del paquete (avanzado, opcional)
+
+Lo central de este Power sigue siendo lo de arriba: **consultas de solo-lectura, optimizadas y con protección de tablas grandes.** Lo que sigue son capacidades del paquete `@benborla29/mcp-server-mysql` que puedes activar editando el `mcp.json` si tu caso lo pide — ninguna es necesaria para el uso normal, y todas mantienen el solo-lectura si las configurás como se indica.
+
+### Conexión por socket Unix
+
+En Linux o macOS, en vez de host y puerto podés conectar por un socket Unix local. Se reemplaza `MYSQL_HOST`/`MYSQL_PORT` por `MYSQL_SOCKET_PATH` en el bloque `env`:
+
+```jsonc
+"env": {
+  "MYSQL_SOCKET_PATH": "/tmp/mysql.sock",
+  "MYSQL_USER": "${MYSQLPOWER_USER}",
+  "MYSQL_PASS": "${MYSQLPOWER_PASS}",
+  "MYSQL_DB": "${MYSQLPOWER_DB}",
+  "ALLOW_INSERT_OPERATION": "false",
+  "ALLOW_UPDATE_OPERATION": "false",
+  "ALLOW_DELETE_OPERATION": "false"
+}
+```
+
+### Modo multi-base nativo
+
+El paquete trae un modo multi-base propio, distinto de duplicar el bloque `mysql` (ver "Múltiples bases MySQL"). Se activa **omitiendo** `MYSQL_DB` en el `env`: el servidor deja de fijarse a una sola base y expone las que el usuario pueda ver. Para que ese modo siga siendo solo-lectura, agregá `MULTI_DB_WRITE_MODE` en `false`:
+
+```jsonc
+"env": {
+  "MYSQL_HOST": "${MYSQLPOWER_HOST}",
+  "MYSQL_PORT": "${MYSQLPOWER_PORT}",
+  "MYSQL_USER": "${MYSQLPOWER_USER}",
+  "MYSQL_PASS": "${MYSQLPOWER_PASS}",
+  "MULTI_DB_WRITE_MODE": "false"
+}
+```
+
+Con multi-base, la **protección de tablas grandes sigue aplicando igual** (medir con `information_schema.tables`, umbrales, `LIMIT` obligatorio): consultá siempre con esquema y tabla calificados, y no bajes la guardia solo porque hay varias bases disponibles.
+
 ## Actualizar el Power
 
 Panel de Powers → `dbmysql` → **Check for updates** → **Install updates**.
