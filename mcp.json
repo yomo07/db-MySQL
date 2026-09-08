@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "mysql": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@benborla29/mcp-server-mysql"],
+       "env": {
+        "MYSQL_HOST": "127.0.0.1",
+        "MYSQL_PORT": "3316",
+        "MYSQL_USER": "testuser",
+        "MYSQL_PASS": "testpass123",
+        "MYSQL_DB": "ventas",
+        "ALLOW_INSERT_OPERATION": "false",
+        "ALLOW_UPDATE_OPERATION": "false",
+        "ALLOW_DELETE_OPERATION": "false"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "dbmysql",
+  "version": "1.0.0",
+  "description": "Consulta bases de datos MySQL desde Kiro con @benborla29/mcp-server-mysql. Solo-lectura por defecto, con protección para tablas grandes; no lee archivos .env ni product.md.",
+  "author": {
+    "name": "Yoel Moreno",
+    "url": "https://github.com/yomo07"
+  },
+  "keywords": [
+    "sql",
+    "mysql",
+    "database",
+    "base de datos",
+    "consulta",
+    "query",
+    "esquema",
+    "schema",
+    "tabla",
+    "table"
+  ],
+  "license": "MIT",
+  "repository": "https://github.com/yomo07/dbmysqlpowerkiro"
+}
